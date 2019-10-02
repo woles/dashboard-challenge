@@ -4,6 +4,9 @@
   "private": true,
   "author": "Michał Wawryszuk",
   "dependencies": {
+    "@material-ui/core": "^4.5.0",
+    "@types/lodash": "^4.14.141",
+    "lodash": "^4.17.15",
     "papaparse": "^5.1.0",
     "react": "^16.10.1",
     "react-dom": "^16.10.1"
