@@ -1,21 +1,32 @@
 {
   "name": "dashboard",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
+  "author": "Michał Wawryszuk",
   "dependencies": {
-    "@types/jest": "24.0.18",
-    "@types/node": "12.7.9",
-    "@types/react": "16.9.4",
-    "@types/react-dom": "16.9.1",
     "react": "^16.10.1",
-    "react-dom": "^16.10.1",
+    "react-dom": "^16.10.1"
+  },
+  "devDependencies": {
+    "@types/jest": "24.0.18",
+    "@types/node": "12.7.8",
+    "@types/react": "16.9.3",
+    "@types/react-dom": "16.9.1",
+    "@types/react-test-renderer": "^16.9.0",
+    "husky": "^3.0.7",
     "react-scripts": "3.1.2",
+    "react-test-renderer": "^16.10.1",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-react": "^4.1.0",
     "typescript": "3.6.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test",
+    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -32,5 +43,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test"
+    }
   }
 }
