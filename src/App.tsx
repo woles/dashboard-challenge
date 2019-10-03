@@ -22,6 +22,7 @@ const mainStyle = {
 }
 
 const App: React.FC = () => {
+
   const [state, setState] = useState<AppState>({
     data: [],
     filtersKeys: {
@@ -30,6 +31,7 @@ const App: React.FC = () => {
     },
     showLoading: true,
   })
+
   const [activeFilters, setActiveFilters] = useState<FiltersKeys>({
     campaigns: [ALL],
     datasources: [ALL],

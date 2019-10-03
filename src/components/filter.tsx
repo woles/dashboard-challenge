@@ -64,6 +64,11 @@ export const Filter: React.FC<FilterProps> = ({ keys, name, onChange }) => {
 
   const [filterValues, setFilterValues] = useState<string[]>([ALL])
 
+  useEffect(() => {
+    onChange(name.toLowerCase() + 's', filterValues)
+    // eslint-disable-next-line
+  }, [filterValues])
+
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setFilterValues((event.target.value as string[]).filter((value) => value !== ALL))
   }
@@ -78,11 +83,6 @@ export const Filter: React.FC<FilterProps> = ({ keys, name, onChange }) => {
   const handleClear = () => {
     setFilterValues([ALL])
   }
-
-  useEffect(() => {
-    onChange(name.toLowerCase() + 's', filterValues)
-    // eslint-disable-next-line
-  }, [filterValues])
 
   const mappedChips = (selected: string[]) => selected.map(
     (value) => (<Chip key={value} label={value} onDelete={value !== ALL ? handleDelete : undefined} />),

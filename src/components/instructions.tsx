@@ -12,6 +12,7 @@ const useStyles = makeStyles({
     paddingTop: 5,
   },
   ul: {
+    listStyle: 'none',
     marginBottom: 0,
     paddingTop: 10,
   },
@@ -26,8 +27,8 @@ export const Instructions: React.FC = () => {
       <Paper>
         <div>
           <ul className={classes.ul}>
-            <li>Select zero to N <i>Datasources</i></li>
-            <li>Select zero to N <i>Campaigns</i></li>
+            <li>- Select zero to N <i>Datasources</i></li>
+            <li>- Select zero to N <i>Campaigns</i></li>
           </ul>
           <p className={classes.p1}>(where zero means "All")</p>
           <p className={classes.p2}>
