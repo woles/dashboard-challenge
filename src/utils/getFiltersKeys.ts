@@ -2,15 +2,12 @@ import _ from 'lodash'
 
 import { DataItem, Filters, FiltersKeys } from '../types'
 
-export const getFiltersKeys = (data: DataItem[]): FiltersKeys => {
-  return {
-    campaigns: _(data)
-      .uniqBy(Filters.Campaign)
-      .map((item) => item[Filters.Campaign])
-      .value(),
-    dataSources: _(data)
-      .uniqBy(Filters.Datasource)
-      .map((item) => item[Filters.Datasource])
-      .value(),
-  }
-}
+const getUniqKeys = (data: DataItem[], FilterName: Filters): string[] => _(data)
+  .uniqBy(FilterName)
+  .map((item) => item[FilterName])
+  .value()
+
+export const getFiltersKeys = (data: DataItem[]): FiltersKeys => ({
+    campaigns: getUniqKeys(data, Filters.Campaign),
+    datasources: getUniqKeys(data, Filters.Datasource),
+})

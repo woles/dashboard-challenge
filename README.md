@@ -28,3 +28,11 @@ or
 or
 
     npm run lint
+
+# Build
+
+    yarn run build
+
+or
+
+    npm run build

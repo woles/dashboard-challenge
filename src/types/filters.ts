@@ -5,5 +5,5 @@ export enum Filters {
 
 export type FiltersKeys = {
   campaigns: string[],
-  dataSources: string[],
+  datasources: string[],
 }

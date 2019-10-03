@@ -1,7 +1,7 @@
 import { Grid, Paper } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 
-import { Instructions } from './components'
+import { FiltersComponent, Instructions } from './components'
 import { AggregatedDataItem, DataItem, FiltersKeys } from './types'
 import { aggregateData, fetchData, getFiltersKeys } from './utils'
 
@@ -21,15 +21,23 @@ const mainStyle = {
 }
 
 const App: React.FC = () => {
-  // tslint:disable-next-line: no-object-literal-type-assertion
-  const [state, setState] = useState({
+  const [state, setState] = useState<AppState>({
     chartData: [],
     filtersKeys: {
       campaigns: [],
-      dataSources: [],
+      datasources: [],
     },
     showLoading: true,
-  } as AppState)
+  })
+  const [activeFilters, setActiveFilters] = useState<FiltersKeys>({
+    campaigns: [],
+    datasources: [],
+  })
+
+  useEffect(() => {
+    fetchData(onFetchComplete, DATA_PATH)
+    // eslint-disable-next-line
+  }, [])
 
   const onFetchComplete = ((results: DataItem[]) => {
     setState({
@@ -39,17 +47,11 @@ const App: React.FC = () => {
     })
   })
 
-  useEffect(() => {
-    fetchData(onFetchComplete, DATA_PATH)
-  }, [])
-
   return (
     <div style={mainStyle}>
       <Grid container={true} spacing={3}>
         <Instructions />
-        <Grid item={true} xs={12} md={3}>
-          <Paper>Filters</Paper>
-        </Grid>
+        <FiltersComponent filtersKeys={state.filtersKeys} setFilters={setActiveFilters} />
         <Grid item={true} xs={12} md={9}>
           <Paper>Charts</Paper>
         </Grid>
