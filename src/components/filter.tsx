@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-
+const ALL_DATA = 'All Data'
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 
@@ -60,20 +60,21 @@ export const Filter: React.FC<FilterProps> = ({ keys, name, onChange }) => {
 
   const classes = useStyles()
 
-  const [filterValues, setFilterValues] = useState<string[]>([])
+  const [filterValues, setFilterValues] = useState<string[]>([ALL_DATA])
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setFilterValues(event.target.value as string[])
+    setFilterValues((event.target.value as string[]).filter((value) => value !== ALL_DATA))
   }
 
   const handleDelete = (event: React.ChangeEvent<{ parentElement: HTMLElement }>) => {
-    setFilterValues(filterValues.filter(
+    const values = filterValues.filter(
       (key) => key !== event.currentTarget.parentElement.childNodes[0].childNodes[0].textContent,
-    ))
+    )
+    setFilterValues(values.length > 0 ? values : [ALL_DATA])
   }
 
   const handleClear = () => {
-    setFilterValues([])
+    setFilterValues([ALL_DATA])
   }
 
   useEffect(() => {
@@ -81,9 +82,13 @@ export const Filter: React.FC<FilterProps> = ({ keys, name, onChange }) => {
     // eslint-disable-next-line
   }, [filterValues])
 
+  const mappedChips = (selected: string[]) => selected.map(
+    (value) => (<Chip key={value} label={value} onDelete={value !== ALL_DATA ? handleDelete : undefined} />),
+  )
+
   const selectValue = (selected: unknown) => (
     <div className={classes.chips}>
-      {(selected as string[]).map((value) => (<Chip key={value} label={value} onDelete={handleDelete} />))}
+      {mappedChips(selected as string[])}
     </div>
   ) as React.ReactNode
 
