@@ -1,12 +1,13 @@
-import { Grid, Paper } from '@material-ui/core'
+import { Grid } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 
-import { FiltersComponent, Instructions } from './components'
-import { AggregatedDataItem, DataItem, FiltersKeys } from './types'
-import { aggregateData, fetchData, getFiltersKeys } from './utils'
+import { Chart, FiltersComponent, Instructions } from './components'
+import { ALL } from './const'
+import { DataItem, FiltersKeys } from './types'
+import { aggregateData, fetchData, filterData, getFiltersKeys } from './utils'
 
 type AppState = {
-  chartData: AggregatedDataItem[],
+  data: DataItem[],
   filtersKeys: FiltersKeys,
   showLoading: boolean,
 }
@@ -22,7 +23,7 @@ const mainStyle = {
 
 const App: React.FC = () => {
   const [state, setState] = useState<AppState>({
-    chartData: [],
+    data: [],
     filtersKeys: {
       campaigns: [],
       datasources: [],
@@ -30,8 +31,8 @@ const App: React.FC = () => {
     showLoading: true,
   })
   const [activeFilters, setActiveFilters] = useState<FiltersKeys>({
-    campaigns: [],
-    datasources: [],
+    campaigns: [ALL],
+    datasources: [ALL],
   })
 
   useEffect(() => {
@@ -41,20 +42,22 @@ const App: React.FC = () => {
 
   const onFetchComplete = ((results: DataItem[]) => {
     setState({
-      chartData: aggregateData(results),
+      data: results,
       filtersKeys: getFiltersKeys(results),
       showLoading: false,
     })
   })
+
+  const chartData = activeFilters.campaigns[0] !== ALL || activeFilters.datasources[0] !== ALL
+    ? aggregateData(filterData(state.data, activeFilters))
+    : aggregateData(state.data)
 
   return (
     <div style={mainStyle}>
       <Grid container={true} spacing={3}>
         <Instructions />
         <FiltersComponent filtersKeys={state.filtersKeys} setFilters={setActiveFilters} />
-        <Grid item={true} xs={12} md={9}>
-          <Paper>Charts</Paper>
-        </Grid>
+        <Chart data={chartData} filters={activeFilters} />
       </Grid>
     </div>
   )

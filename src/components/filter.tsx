@@ -12,6 +12,8 @@ import {
 import { Replay } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react'
 
+import { ALL } from '../const'
+
 type FilterProps = {
   keys: string[],
   name: string,
@@ -43,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 )
-const ALL_DATA = 'All Data'
+
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 
@@ -60,21 +62,21 @@ export const Filter: React.FC<FilterProps> = ({ keys, name, onChange }) => {
 
   const classes = useStyles()
 
-  const [filterValues, setFilterValues] = useState<string[]>([ALL_DATA])
+  const [filterValues, setFilterValues] = useState<string[]>([ALL])
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setFilterValues((event.target.value as string[]).filter((value) => value !== ALL_DATA))
+    setFilterValues((event.target.value as string[]).filter((value) => value !== ALL))
   }
 
   const handleDelete = (event: React.ChangeEvent<{ parentElement: HTMLElement }>) => {
     const values = filterValues.filter(
       (key) => key !== event.currentTarget.parentElement.childNodes[0].childNodes[0].textContent,
     )
-    setFilterValues(values.length > 0 ? values : [ALL_DATA])
+    setFilterValues(values.length > 0 ? values : [ALL])
   }
 
   const handleClear = () => {
-    setFilterValues([ALL_DATA])
+    setFilterValues([ALL])
   }
 
   useEffect(() => {
@@ -83,7 +85,7 @@ export const Filter: React.FC<FilterProps> = ({ keys, name, onChange }) => {
   }, [filterValues])
 
   const mappedChips = (selected: string[]) => selected.map(
-    (value) => (<Chip key={value} label={value} onDelete={value !== ALL_DATA ? handleDelete : undefined} />),
+    (value) => (<Chip key={value} label={value} onDelete={value !== ALL ? handleDelete : undefined} />),
   )
 
   const selectValue = (selected: unknown) => (
@@ -104,12 +106,12 @@ export const Filter: React.FC<FilterProps> = ({ keys, name, onChange }) => {
         <InputLabel htmlFor="select-multiple-chip">{name}</InputLabel>
         <Replay className={classes.clean} onClick={handleClear} />
         <Select
-          multiple={true}
-          value={filterValues}
-          onChange={handleChange}
           input={<Input id="select-multiple-chip" />}
-          renderValue={selectValue}
           MenuProps={MenuProps}
+          multiple={true}
+          onChange={handleChange}
+          renderValue={selectValue}
+          value={filterValues}
         >
           {menuItems}
         </Select>

@@ -1,6 +1,7 @@
 import { Button, Grid, makeStyles, Paper } from '@material-ui/core'
 import React, { useState } from 'react'
 
+import { ALL } from '../const'
 import { Filters, FiltersKeys } from '../types'
 import { Filter } from './filter'
 
@@ -27,8 +28,8 @@ export const FiltersComponent: React.FC<FiltersProps> = ({ filtersKeys: { campai
   const classes = useStyles()
 
   const [state, setState] = useState<FiltersKeys>({
-    campaigns: [],
-    datasources: [],
+    campaigns: [ALL],
+    datasources: [ALL],
   })
 
   const handleFilterChange = (name: string, keys: string[]) => {
@@ -43,11 +44,11 @@ export const FiltersComponent: React.FC<FiltersProps> = ({ filtersKeys: { campai
   }
 
   return (
-    <Grid item={true} xs={12} md={3}>
+    <Grid item={true} md={3} xs={12}>
       <Paper className={classes.paper}>
         <h2 className={classes.h2}>Filters dimension values</h2>
-        <Filter name={Filters.Datasource} keys={datasources} onChange={handleFilterChange}/>
-        <Filter name={Filters.Campaign} keys={campaigns} onChange={handleFilterChange} />
+        <Filter keys={datasources} name={Filters.Datasource} onChange={handleFilterChange} />
+        <Filter keys={campaigns} name={Filters.Campaign} onChange={handleFilterChange} />
         <Button className={classes.apply} color="primary" onClick={handleApply} variant="contained">
           Apply
         </Button>

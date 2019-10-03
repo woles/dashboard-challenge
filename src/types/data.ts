@@ -6,8 +6,4 @@ export type DataItem = {
   Impressions: number | null,
 }
 
-export type AggregatedDataItem = {
-  Clicks: number | null,
-  Date: Date,
-  Impressions: number | null,
-}
+export type AggregatedDataItem = [Date, number | null, number | null]
