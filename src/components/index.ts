@@ -1,3 +1,3 @@
-export * from './chart'
+export * from './chartComponent'
 export * from './filtersComponent'
 export * from './instructions'

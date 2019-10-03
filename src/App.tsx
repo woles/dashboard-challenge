@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 
-import { Chart, FiltersComponent, Instructions } from './components'
+import { ChartComponent, FiltersComponent, Instructions } from './components'
 import { ALL } from './const'
 import { DataItem, FiltersKeys } from './types'
 import { aggregateData, fetchData, filterData, getFiltersKeys } from './utils'
@@ -57,7 +57,7 @@ const App: React.FC = () => {
       <Grid container={true} spacing={3}>
         <Instructions />
         <FiltersComponent filtersKeys={state.filtersKeys} setFilters={setActiveFilters} />
-        <Chart data={chartData} filters={activeFilters} />
+        <ChartComponent data={chartData} filters={activeFilters} />
       </Grid>
     </div>
   )
